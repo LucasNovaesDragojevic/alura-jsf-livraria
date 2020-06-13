@@ -48,6 +48,9 @@
 					<h:column>
 						<h:outputText value="#{autor.nome}"/>
 					</h:column>
+					<h:column>
+						<h:commandLink value="remover" action="#{livroBean.removerAutorDoLivro(autor)}"/>
+					</h:column>
 				</h:dataTable>
 			</fieldset>
 			<h:commandButton value="Gravar" action="#{livroBean.gravar}">
@@ -78,8 +81,15 @@
 					</h:outputText>
 				</h:column>
 				<h:column>
+			 		<f:facet name="header">Alterar</f:facet>
+					<!-- <h:commandLink value="altera" action="#{livroBean.carregar(livro)}"/> -->
+					<h:commandLink value="alterar">
+						<f:setPropertyActionListener value="#{livro}" target="#{livroBean.livro}"/>
+					</h:commandLink>
+				</h:column>
+				<h:column>
 					<f:facet name="header">Remover</f:facet>
-					<h:commandLink value="remove"/>
+					<h:commandLink value="remove" action="#{livroBean.remover(livro)}"/>
 				</h:column>
 			</h:dataTable>
 		</h:form>
