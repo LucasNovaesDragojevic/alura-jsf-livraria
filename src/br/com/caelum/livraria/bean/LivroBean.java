@@ -20,6 +20,8 @@ public class LivroBean {
 	private Livro livro = new Livro();
 
 	private Integer autorId;
+	
+	private Integer livroId;
 
 	public Integer getAutorId() {
 		return autorId;
@@ -27,6 +29,14 @@ public class LivroBean {
 
 	public void setAutorId(Integer autorId) {
 		this.autorId = autorId;
+	}
+	
+	public Integer getLivroId() {
+		return livroId;
+	}
+
+	public void setLivroId(Integer livroId) {
+		this.livroId = livroId;
 	}
 
 	public Livro getLivro() {
@@ -93,5 +103,10 @@ public class LivroBean {
 		if (!valor.startsWith("1")) {
 			throw new ValidatorException(new FacesMessage("ISBN deve começar com 1"));
 		}
+	}
+	
+	public void carregarPeloId() {
+		if (livroId != null)
+			this.livro = new DAO<Livro>(Livro.class).buscaPorId(livroId);
 	}
 }

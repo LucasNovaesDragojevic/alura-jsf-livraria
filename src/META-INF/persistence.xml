@@ -13,7 +13,7 @@
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/livrariadb?serverTimezone=UTC" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/livraria?serverTimezone=UTC" />
 			<property name="javax.persistence.jdbc.user" value="alura" />
 			<property name="javax.persistence.jdbc.password" value="alura" />
 
