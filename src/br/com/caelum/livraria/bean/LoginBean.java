@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -19,13 +20,19 @@ public class LoginBean {
 	}
 	
 	public RedirectView efetuaLogin() {
-		System.out.println("Efetuando login: " + this.usuario.getEmail());
-		
+		FacesContext context = FacesContext.getCurrentInstance();
 		if ((new UsuarioDao()).existe(this.usuario)) {
-			FacesContext context = FacesContext.getCurrentInstance();
 			context.getExternalContext().getSessionMap().put("usuarioLogado", this.usuario);
 			return new RedirectView("livro");
 		}
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		context.addMessage(null, new FacesMessage("Usuário não encontrado"));
 		return new RedirectView("login");
+	}
+	
+	public String deslogar() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getExternalContext().getSessionMap().remove("usuarioLogado");
+		return "login?faces-redirect=true";
 	}
 }
