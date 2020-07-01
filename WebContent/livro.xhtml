@@ -46,7 +46,6 @@
 					<f:ajax execute="autor" render="tabelaAutores"/>
 				</h:commandButton>
 				<br />
-				<!-- <h:commandLink value="Cadastrar novo autor" action="autor?faces-redirect=true" immediate="true"/> -->
 				<h:commandLink value="Cadastra novo autor" action="#{livroBean.formAutor}" immediate="true"/>
 				<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores">
 					<h:column>
@@ -86,7 +85,6 @@
 				</h:column>
 				<h:column>
 			 		<f:facet name="header">Alterar</f:facet>
-					<!-- <h:commandLink value="altera" action="#{livroBean.carregar(livro)}"/> -->
 					<h:commandLink value="alterar">
 						<f:setPropertyActionListener value="#{livro}" target="#{livroBean.livro}"/>
 					</h:commandLink>
