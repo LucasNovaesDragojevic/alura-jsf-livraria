@@ -1,6 +1,8 @@
 package br.com.caelum.livraria.bean;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,6 +24,8 @@ public class LivroBean {
 	private Integer autorId;
 	
 	private Integer livroId;
+
+	private List<Livro> livros;
 
 	public Integer getAutorId() {
 		return autorId;
@@ -48,7 +52,12 @@ public class LivroBean {
 	}
 	
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		if (this.livros == null) {
+			this.livros = dao.listaTodos();
+		}
+		System.out.println("M�todo getLivros: " + livros.toString());
+		return livros;
 	}
 
 	public List<Autor> getAutores() {
@@ -70,11 +79,13 @@ public class LivroBean {
 			//throw new RuntimeException("Livro deve ter pelo menos um Autor.");
 			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor"));
 		}
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
 		if (this.livro.getId() == null) {
-			new DAO<Livro>(Livro.class).adiciona(this.livro);
+			dao.adiciona(this.livro);
+			this.livros = dao.listaTodos();
 		}
 		else {
-			new DAO<Livro>(Livro.class).atualiza(this.livro);
+			dao.atualiza(this.livro);
 		}
 		this.livro = new Livro();
 	}
@@ -108,5 +119,23 @@ public class LivroBean {
 	public void carregarPeloId() {
 		if (livroId != null)
 			this.livro = new DAO<Livro>(Livro.class).buscaPorId(livroId);
+	}
+	
+	public Boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) {
+		String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+		System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " +  valorColuna);
+		if (textoDigitado == null || textoDigitado.equals("")) {
+			return true;
+		}
+		if (valorColuna == null) {
+			return false;
+		}
+		try {
+			Double precoDigitado = Double.valueOf(textoDigitado);
+			Double precoColuna = (Double) valorColuna;
+			return precoColuna.compareTo(precoDigitado) < 0;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 }
