@@ -8,7 +8,8 @@
 <h:head/>
 <h:body>
 	<div id="cabecalho">
-		<h:graphicImage library="img" name="logo.png"/>
+		<p:graphicImage library="img" name="logo.png"/>
+		<p><h:outputText value="#{sessionScope['usuarioLogado'].email}"/></p>
 		<p:growl id="growl" showDetail="true" autorUpdate="true" sticky="true"/>
 		<h:form rendered="#{usuarioLogado != null}">
 			<p:menubar>
@@ -24,8 +25,12 @@
 			        <p:menuitem value="ShowCase" url="http://primefaces.org/showcase" icon="fa fa-fw fa-sign-out"/>
 			    </p:submenu>
 			</p:menubar>
+			<p:themeSwitcher value="#{temaBean.tema}">
+				<f:selectItem itemLabel="Escolha o tema" itemValue=""/>
+				<f:selectItems var="tema" value="#{temaBean.temas}" itemLabel="#{tema}" itemValue="#{tema}"/>
+				<f:ajax />
+			</p:themeSwitcher>
 		</h:form>
-		<p><h:outputText value="#{sessionScope['usuarioLogado'].email}"/></p>
 		<h1><ui:insert name="titulo"/></h1>
 	</div>
 	<div id="conteudo">
