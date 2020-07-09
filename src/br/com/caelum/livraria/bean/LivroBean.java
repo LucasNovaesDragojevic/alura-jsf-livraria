@@ -14,6 +14,8 @@ import br.com.caelum.livraria.dao.AutorDao;
 import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.tx.Log;
+import br.com.caelum.livraria.tx.Transacional;
 
 @Named
 @ViewScoped
@@ -78,11 +80,15 @@ public class LivroBean implements Serializable {
 		return this.livro.getAutores();
 	}
 
+	@Transacional
+	@Log
 	public void gravarAutor() {
 		Autor autor = autorDao.buscaPorId(this.autorId);
 		this.livro.adicionaAutor(autor);
 	}
-
+	
+	@Transacional
+	@Log
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 		if (livro.getAutores().isEmpty()) {
@@ -99,6 +105,8 @@ public class LivroBean implements Serializable {
 		this.livro = new Livro();
 	}
 	
+	@Transacional
+	@Log
 	public void remover(Livro livro) {
 		System.out.println("Removendo livro.");
 		livroDao.remove(livro);	

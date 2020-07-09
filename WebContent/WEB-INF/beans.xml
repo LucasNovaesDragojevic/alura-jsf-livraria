@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans></beans>
+<beans>
+	<interceptors>
+		<class>br.com.caelum.livraria.tx.GerenciadorTransacao</class>
+		<class>br.com.caelum.livraria.tx.VelocidadeTransacao</class>
+	</interceptors>
+</beans>
