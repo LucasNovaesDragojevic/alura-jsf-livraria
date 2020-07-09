@@ -1,11 +1,19 @@
 package br.com.caelum.livraria.bean;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
 
-@ManagedBean
+import javax.enterprise.context.SessionScoped;
+
+import javax.inject.Named;
+
+@Named
 @SessionScoped
-public class TemaBean {
+public class TemaBean implements Serializable {
+	
+	/**
+	 * Serialização gerada automaticamente pelo eclipse
+	 */
+	private static final long serialVersionUID = 2871493857147685220L;
 	
 	private String tema = "vader";
 
