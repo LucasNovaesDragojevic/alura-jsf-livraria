@@ -25,7 +25,7 @@ public class LivroDao implements Serializable {
 	public void adiciona(Livro t) {
 		dao.adiciona(t);
 	}
-
+	
 	public void remove(Livro t) {
 		dao.remove(t);
 	}

@@ -21,9 +21,6 @@ import br.com.caelum.livraria.tx.Transacional;
 @ViewScoped
 public class LivroBean implements Serializable {
 
-	/**
-	 * Serialização gerada automaticamente pelo eclipse
-	 */
 	private static final long serialVersionUID = 1022452390851343337L;
 
 	private Livro livro = new Livro();
@@ -39,6 +36,9 @@ public class LivroBean implements Serializable {
 	
 	@Inject
 	AutorDao autorDao;
+	
+	@Inject
+	FacesContext context;
 
 	public Integer getAutorId() {
 		return autorId;
@@ -92,8 +92,7 @@ public class LivroBean implements Serializable {
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 		if (livro.getAutores().isEmpty()) {
-			//throw new RuntimeException("Livro deve ter pelo menos um Autor.");
-			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor"));
+			context.addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor"));
 		}
 		if (this.livro.getId() == null) {
 			livroDao.adiciona(this.livro);
@@ -118,18 +117,18 @@ public class LivroBean implements Serializable {
 	
 	public void carregar(Livro livro) {
 		System.out.println("Carregando livro.");
-		this.livro = livro;
+		this.livro = livroDao.buscaPorId(livro.getId());
 	}
 
 	public String formAutor() {
-		System.out.println("Chamando o formulÃ¡rio do Autor");
+		System.out.println("Chamando o formulário do Autor");
 		return "autor?faces-redirect=true";
 	}
 	
 	public void comecaComDigitoUm(FacesContext facesContext, UIComponent uiComponent, Object value) throws ValidatorException {
 		String valor = value.toString();
 		if (!valor.startsWith("1")) {
-			throw new ValidatorException(new FacesMessage("ISBN deve comeÃ§ar com 1"));
+			throw new ValidatorException(new FacesMessage("ISBN deve começar com 1"));
 		}
 	}
 	

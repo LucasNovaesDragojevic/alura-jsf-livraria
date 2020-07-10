@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
-
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.UsuarioDao;
@@ -16,20 +16,22 @@ import br.com.caelum.livraria.util.RedirectView;
 @ViewScoped
 public class LoginBean implements Serializable {
 
-	/**
-	 * Serialização gerada automaticamente pelo eclipse
-	 */
 	private static final long serialVersionUID = 6103599225396622644L;
 	
 	private Usuario usuario = new Usuario();
+	
+	@Inject
+	UsuarioDao usuarioDao;
+	
+	@Inject
+	FacesContext context;
 	
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
 	
 	public RedirectView efetuaLogin() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		if ((new UsuarioDao()).existe(this.usuario)) {
+		if (usuarioDao.existe(this.usuario)) {
 			context.getExternalContext().getSessionMap().put("usuarioLogado", this.usuario);
 			return new RedirectView("livro");
 		}
@@ -39,7 +41,6 @@ public class LoginBean implements Serializable {
 	}
 	
 	public String deslogar() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");
 		return "login?faces-redirect=true";
 	}

@@ -15,7 +15,7 @@
 		<p:outputPanel>Novo livro</p:outputPanel>
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="formLivros">
 			<p:messages id="messages"/>
 			<p:fieldset legend="Dados do Livro">
 				<p:panelGrid columns="2">
@@ -71,13 +71,11 @@
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 					</h:outputText>
 				</p:column>
-				<p:column>
-					<h:commandLink value="alterar">
-						<f:setPropertyActionListener value="#{livro}" target="#{livroBean.livro}"/>
-					</h:commandLink>
+				<p:column headerText="Alterar">
+					<p:commandButton update="@form :formLivros" process="@this" value="Alterar" actionListener="#{livroBean.carregar(livro)}" icon="fa fa-fw fa-pencil"/>
 				</p:column>
-				<p:column>
-					<h:commandLink value="remove" action="#{livroBean.remover(livro)}"/>
+				<p:column headerText="Remover">
+					<p:commandButton update="@form :formLivros" value="Remover" actionListener="#{livroBean.remover(livro)}"/>
 				</p:column>
 			</p:dataTable>
 		</h:form>
